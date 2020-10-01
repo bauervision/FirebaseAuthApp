@@ -56,7 +56,8 @@ With a successful build, it's time to make sure we can auth our users. Within th
 
 The key code here, taken from the Firebase example, is this:
 
-````public virtual void Start()
+```
+public virtual void Start()
     {
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -72,7 +73,8 @@ The key code here, taken from the Firebase example, is this:
                 initText.text = "Could not resolve all Firebase dependencies: " + dependencyStatus;
             }
         });
-    }```
+    }
+```
 
 ## Test Database
 
