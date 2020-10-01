@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "749205457241",
+    "firebase_url": "https://gamedev-4fe55.firebaseio.com",
+    "project_id": "gamedev-4fe55",
+    "storage_bucket": "gamedev-4fe55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749205457241:android:230747a4d11dcaa7196448",
+        "android_client_info": {
+          "package_name": "com.BauerVision.AuthApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749205457241-68t0k2csg1idi5nvm4ufq3j11llgevcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEcDre6mph6ER7zkzJgvDpsmNqR7grvSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749205457241-68t0k2csg1idi5nvm4ufq3j11llgevcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749205457241:android:f0e3671d53b6dbf7196448",
+        "android_client_info": {
+          "package_name": "com.bauervision.scavengers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749205457241-rd44eo9pkos1vca4ur7lm8279mecmi3t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bauervision.scavengers",
+            "certificate_hash": "1cd9d9d5e6b4a95b5348eb409fd9078c40f844ac"
+          }
+        },
+        {
+          "client_id": "749205457241-68t0k2csg1idi5nvm4ufq3j11llgevcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEcDre6mph6ER7zkzJgvDpsmNqR7grvSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749205457241-68t0k2csg1idi5nvm4ufq3j11llgevcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749205457241:android:6c66a4df3c66f399196448",
+        "android_client_info": {
+          "package_name": "com.google.FirebaseUnityAuthTestApp.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749205457241-9sj7q8o0s8edfhkahacdkuedjcvnjsve.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.FirebaseUnityAuthTestApp.dev",
+            "certificate_hash": "c9e5c87074c03baf2f12d870611f26567206131e"
+          }
+        },
+        {
+          "client_id": "749205457241-68t0k2csg1idi5nvm4ufq3j11llgevcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEcDre6mph6ER7zkzJgvDpsmNqR7grvSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749205457241-68t0k2csg1idi5nvm4ufq3j11llgevcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
