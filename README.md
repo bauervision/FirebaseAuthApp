@@ -1,4 +1,4 @@
-﻿# FirebaseAuthApp
+# FirebaseAuthApp
 
 This project is about figuring out the procedure for getting an android app, built in Unity, to connect to Firebase for authentication, and database access.
 
@@ -31,9 +31,9 @@ This project is about figuring out the procedure for getting an android app, bui
   `C:\Program Files\Unity\Hub\Editor\2020.1.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK\bin` is where keytool.exe is located.
 
 - Open command prompt, change to the above directory and run, as an example:
-  `keytool -exportcert -alias "authApp" -keystore "C:\MyFolder\To\WhereThe\Keystore\FileIsLocated\AuthAppKey.keystore" -list -v`
+  `keytool -exportcert -alias "authApp" -keystore "C:\Bauer\Dev\My Courses\Unity\FireBase\AuthApp\AuthAppKey.keystore" -list -v`
 
-Note: `authApp` and `C:\MyFolder\To\WhereThe\Keystore\FileIsLocated\AuthAppKey.keystore` will need to be replaced with the alias you chose, and the path to where your keystore file was saved.
+Note: `authApp` and `C:\Bauer\Dev\My Courses\Unity\FireBase\AuthApp\AuthAppKey.keystore` will need to be replaced with the alias you chose, and the path to where your keystore file was saved.
 
 You should be prompted to enter your password, enter it, and copy the SHA1 key from the output.
 
@@ -52,8 +52,29 @@ If all goes well, you should see you app load to your device.
 
 ## Test Authentication
 
-With a successful build, it's time to make sure we can auth our users
+With a successful build, it's time to make sure we can auth our users. Within the Scripts folder, I have a FirebaseInit class, which is assigned to an empty game object in my scene. Essentially, the UI has 2 screens, an Initializer which will display if there are any errors from Firebase, and then a Loaded screen which only displays if Firebase connection and setup wsa successful.
+
+The key code here, taken from the Firebase example, is this:
+
+````public virtual void Start()
+    {
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
+            dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                isAuthenticated = true;// signal to any other classes that we were successful
+                initScreen.SetActive(false);// and hide the init screen
+            }
+            else
+            {
+                // otherwise display this message and its details on the UI
+                initText.text = "Could not resolve all Firebase dependencies: " + dependencyStatus;
+            }
+        });
+    }```
 
 ## Test Database
 
 Now that we can successfully access Firebase with an authenticated user, let's make sure we can read and write to our database.
+````
