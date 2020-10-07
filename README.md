@@ -102,3 +102,53 @@ You should see the same result as in the editor, and checking the console for lo
 ## Test Database
 
 Now that we can successfully access Firebase with an authenticated user, let's make sure we can read and write to our database.
+
+Here are the two key methods
+
+```
+private IEnumerator GetTestData()
+    {
+        var loadTestDataTask = LoadData();// fire off the database call
+        yield return new WaitUntil(() => loadTestDataTask.IsCompleted);
+        dataText.text = $"Loaded Data\nPlayer Name: {data.name}";// new text field updated to show data loaded
+    }
+
+    public static async Task<TestData> LoadData()
+    {
+      // "users/mcb" is the realtime database location of my test data
+        var dbSnapshot = await FirebaseDatabase.DefaultInstance.GetReference("users/mcb").GetValueAsync();
+        if (!dbSnapshot.Exists)
+        return null;
+
+        // save the loaded data right away into local data
+        instance.data = JsonUtility.FromJson<TestData>(dbSnapshot.GetRawJsonValue());
+        // return the resulting data
+        return instance.data;
+    }
+```
+
+And outside of the FirebaseInit class, here is my simple data class
+
+```
+public class TestData
+{
+    public string name;
+}
+```
+
+I added a new text field on the seconds screen which displays the data loaded form firebase.
+
+With this, you now have a simple project that can auth a user, and load data from firebase.
+
+## Save to Database
+
+To push an update to the database
+
+```
+    public static void SavePlayer()
+    {
+        instance.data.name = "Beth";// change the data to push
+        // and push the change
+        FirebaseDatabase.DefaultInstance.GetReference("users/mcb").SetRawJsonValueAsync(JsonUtility.ToJson(instance.data));
+    }
+```
