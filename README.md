@@ -4,40 +4,48 @@ This project is about figuring out the procedure for getting an android app, bui
 
 ## Steps to Deploy
 
+- Key Requirements: Unity 2020.1.7f1 minimum, Firebase SDK 6.16.0
+
 ### Setup Firebase
 
 - First thing first, we need a Google Firebase account, so create one, and then create a new Project.
 - Now add a new 'Unity' App to your project.
 - This will lead to Registering your app with Firebase, so set the same package name that you will use in your Project Settings / Player Settings. For example, `com.BauerVision.AuthApp`, and provide a nickname as well.
-- Download the provided google_services.json file, and as directed, drag this into your Assets folder.
-- Download the Firebase SDK as directed.
+- Download the provided **google_services.json** file, and as directed, drag this into your **Assets folder**.
 - Enable Authentication for your Firebase Project ( Email & Password ), and Realtime Database
 
 ### Setup Unity
 
 - Make sure you convert your Unity file over to Android
-- In Unity, add the firebase sdk, Assets/Import Package/Custom Package and browse to the
-  `\firebase_unity_sdk.6.15.2\dotnet4\FirebaseAuth.unitypackage`
-  that you download and import it. This will enabled the Scoped Registry which will enable access to all of the other features available.
-- Edit/Preferences and at the bottom, un-check each of the checked SDks for Android, then re-check them. This will fix an error about Unity not knowing where `JAVA_HOME` is located.
-- Edit / Build Settings / Player Settings / Publishing Settings -> Set up your keystore
-- Under Build options, check `Custom Gradle Properties Template`
-- Assets/ External Dependency Manager / Force Resolve to make sure all the t's get crossed.
+- In Unity, Edit / Build Settings / Player Settings / Publishing Settings -> Set up your keystore
+- Add the following code to the bottom of manifest.json to enable installing the Firebase sdk inside Unity
+  ```
+  "scopedRegistries": [
+    {
+      "name": "Game Package Registry by Google",
+      "url": "https://unityregistry-pa.googleapis.com",
+      "scopes": [
+        "com.google"
+      ]
+    }
+  ]
+  ```
+- Using the Unity Package Manager, go ahead and install Firebase App (Core) first, and then Auth, and Database
 
 ### Associate your Unity App with Firebase
 
-- With your keystore in place, you need to generate the SHA1.
+- With your keystore in place, you need to **generate the SHA1**.
 - You don't need to install any Java to do this, Unity already installed when you needed.
   `C:\Program Files\Unity\Hub\Editor\2020.1.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK\bin` is where keytool.exe is located.
 
 - Open command prompt, change to the above directory and run, as an example:
-  `keytool -exportcert -alias "authApp" -keystore "C:\Bauer\Dev\My Courses\Unity\FireBase\AuthApp\AuthAppKey.keystore" -list -v`
+  `keytool -exportcert -alias "authApp" -keystore "C:\MyFolder\MyGame\Unity\FireBase\AuthApp\AuthAppKey.keystore" -list -v`
 
-Note: `authApp` and `C:\Bauer\Dev\My Courses\Unity\FireBase\AuthApp\AuthAppKey.keystore` will need to be replaced with the alias you chose, and the path to where your keystore file was saved.
+Note: `authApp` and `C:\MyFolder\MyGame\Unity\FireBase\AuthApp\AuthAppKey.keystore` will need to be replaced with the alias you chose, and the path to where your keystore file was saved.
 
 You should be prompted to enter your password, enter it, and copy the SHA1 key from the output.
 
-- Back in your Firebase console, go to your Project's Settings, scroll down to Your apps, select your App and add Fingerprint, and then paste your copied SHA1 code.
+- Back in your Firebase console, go to your Project's Settings, scroll down to Your apps, select your App and **Add Fingerprint**, and then paste your copied SHA1 code.
 
 ## Test Deploy
 
@@ -76,9 +84,21 @@ public virtual void Start()
     }
 ```
 
+So with this added, **test Play in your editor** and verify that you can get to the 2nd screen, proving that Firebase was setup successfully.
+
+Now we need to push to your device and verify it happens there too.
+
+### Enable Debugging
+
+- Before pushing this change, let's make sure we have debugging enabled. In VSCode, Debugger you should see
+  `To customize Run and Debug create a launch.json file`
+  Go ahead and click that to do so, and select **Unity Debugger**.
+
+- Now Hit run on the Debugger in VsCode, and back in Unity -> Build Settings check Development Build and Script Debugging
+- Now Build and Run
+
+You should see the same result as in the editor, and checking the console for logs, you should see no errors.
+
 ## Test Database
 
 Now that we can successfully access Firebase with an authenticated user, let's make sure we can read and write to our database.
-````
-
-new line
