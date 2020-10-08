@@ -58,9 +58,11 @@ Now let's make sure that you can even successfully build an android app. Before 
 
 If all goes well, you should see you app load to your device.
 
-## Test Authentication
+## Test Firebase Setup
 
-With a successful build, it's time to make sure we can auth our users. Within the Scripts folder, I have a FirebaseInit class, which is assigned to an empty game object in my scene. Essentially, the UI has 2 screens, an Initializer which will display if there are any errors from Firebase, and then a Loaded screen which only displays if Firebase connection and setup wsa successful.
+First thing we need to check is that Firebase has been properly setup and can connect to its servers
+
+Within the Scripts folder, I have a FirebaseInit class, which is assigned to an empty game object in my scene. Essentially, the UI has 3 screens, an Initializer which will display if there are any errors from Firebase, a "Login" which displays while we wait for the authentication to return, and finally a Loaded screen which only displays if Firebase is good to go.
 
 The key code here, taken from the Firebase example, is this:
 
@@ -72,7 +74,7 @@ public virtual void Start()
             dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                isAuthenticated = true;// signal to any other classes that we were successful
+                isAvailable = true;// signal to any other classes that we were successful
                 initScreen.SetActive(false);// and hide the init screen
             }
             else
@@ -86,7 +88,36 @@ public virtual void Start()
 
 So with this added, **test Play in your editor** and verify that you can get to the 2nd screen, proving that Firebase was setup successfully.
 
-Now we need to push to your device and verify it happens there too.
+## Test Authentication
+
+With a successful build, it's time to make sure we can auth our users.
+
+Running this IEnumerator will process the authentication and handle the error, as well as the completed state.
+
+```
+private IEnumerator LoginUser(string email, string password)
+    {
+        var auth = FirebaseAuth.DefaultInstance;
+        var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);
+
+        yield return new WaitUntil(() => loginTask.IsCompleted);
+
+        // at this point, we either have a successful login or an issue, so lets handle both cases
+        if (loginTask.Exception != null)
+        {
+            // do something to the UI with the failure.
+            loginText.text = $"Failed to login user:\n{loginTask.Exception.Message}";
+        }
+        else
+        {
+            // successful auth, hide the login screen and grab the data
+            loginScreen.SetActive(false);
+            StartCoroutine(GetTestData());
+        }
+    }
+```
+
+Lets' push what we have to your device and verify all things are as they should be.
 
 ### Enable Debugging
 

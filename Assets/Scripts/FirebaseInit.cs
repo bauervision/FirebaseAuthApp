@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Extensions;
+using Firebase.Auth;
 using Firebase.Database;
 using System.Threading.Tasks;
 
@@ -15,13 +16,18 @@ public class TestData
 public class FirebaseInit : MonoBehaviour
 {
     public static FirebaseInit instance;
+    public string emailTest;
+    public string passwordTest;
 
     [SerializeField] private GameObject initScreen = null;
+    [SerializeField] private GameObject loginScreen = null;
     [SerializeField] private Text initText = null;
+    [SerializeField] private Text loginText = null;
     [SerializeField] private Text dataText = null;
     protected Firebase.Auth.FirebaseAuth auth;
     Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
 
+    public bool isAvailable;
     public bool isAuthenticated;
 
     private TestData data;
@@ -38,9 +44,9 @@ public class FirebaseInit : MonoBehaviour
             dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
-                isAuthenticated = true;
+                isAvailable = true;
                 initScreen.SetActive(false);
-                StartCoroutine(GetTestData());
+                StartCoroutine(LoginUser(emailTest, passwordTest));
             }
             else
             {
@@ -49,13 +55,36 @@ public class FirebaseInit : MonoBehaviour
             }
         });
     }
+    private IEnumerator LoginUser(string email, string password)
+    {
+        var auth = FirebaseAuth.DefaultInstance;
+        var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);
+
+        yield return new WaitUntil(() => loginTask.IsCompleted);
+
+        // at this point, we either have a successful login or an issue, so lets handle both cases
+        if (loginTask.Exception != null)
+        {
+            // do something to the UI with the failure.
+            loginText.text = $"Failed to login user:\n{loginTask.Exception.Message}";
+        }
+        else
+        {
+            // successful auth, hide the login screen and grab the data
+            loginScreen.SetActive(false);
+            StartCoroutine(GetTestData());
+        }
+    }
 
 
     private IEnumerator GetTestData()
     {
         var loadTestDataTask = LoadData();// fire off the database call
         yield return new WaitUntil(() => loadTestDataTask.IsCompleted);
-        dataText.text = $"Loaded Data\nPlayer Name: {data.name}";// new text field updated to show data loaded
+        if (loadTestDataTask.Exception != null)
+            dataText.text = $"Data Exception:\n{loadTestDataTask.Exception.Message}";
+        else
+            dataText.text = $"Loaded Data\nPlayer Name: {loadTestDataTask.Result.name}";// new text field updated to show data loaded
     }
 
     public static async Task<TestData> LoadData()
