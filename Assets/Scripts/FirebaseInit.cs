@@ -24,6 +24,8 @@ public class FirebaseInit : MonoBehaviour
     [SerializeField] private Text initText = null;
     [SerializeField] private Text loginText = null;
     [SerializeField] private Text dataText = null;
+
+    public AddressablesManager addressablesManager;
     protected Firebase.Auth.FirebaseAuth auth;
     Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
 
@@ -84,7 +86,12 @@ public class FirebaseInit : MonoBehaviour
         if (loadTestDataTask.Exception != null)
             dataText.text = $"Data Exception:\n{loadTestDataTask.Exception.Message}";
         else
-            dataText.text = $"Loaded Data\nPlayer Name: {loadTestDataTask.Result.name}";// new text field updated to show data loaded
+        {
+            // new text field updated to show data loaded
+            dataText.text = $"Loaded Data\nPlayer Name: {loadTestDataTask.Result.name}";
+            // do something else now that everything is complete
+            addressablesManager.HandleAddressablesAudio();
+        }
     }
 
     public static async Task<TestData> LoadData()
