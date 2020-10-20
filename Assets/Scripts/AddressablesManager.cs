@@ -1,25 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AddressablesManager : MonoBehaviour
 {
-    public AssetReference SceneRef;
     public AssetReference AudioRef;
 
-    public AssetReferenceGameObject PrefabRef;
-    public AudioSource CameraAudioSource;
+    public AudioSource audioSource;
 
-    public void HandleAddressablesPrefab()
+    private void Start()
     {
-        Addressables.InstantiateAsync(PrefabRef);
-    }
-
-    public void HandleAddressablesScene()
-    {
-        SceneRef.LoadSceneAsync(UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        HandleAddressablesAudio();
     }
 
     public void HandleAddressablesAudio()
@@ -29,7 +20,7 @@ public class AddressablesManager : MonoBehaviour
 
     void OnAudioLoaded(AsyncOperationHandle<AudioClip> handle)
     {
-        CameraAudioSource.clip = handle.Result;
-        CameraAudioSource.Play();
+        audioSource.clip = handle.Result;
+        audioSource.Play();
     }
 }

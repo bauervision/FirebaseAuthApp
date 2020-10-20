@@ -167,16 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72773f828d0d704c848928698681dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneRef:
-    m_AssetGUID: 
-    m_SubObjectName: 
   AudioRef:
     m_AssetGUID: 51ad21066f0a79941abe05c325554dcb
     m_SubObjectName: 
-  PrefabRef:
-    m_AssetGUID: 
-    m_SubObjectName: 
-  CameraAudioSource: {fileID: 963194229}
+  audioSource: {fileID: 963194229}
 --- !u!1 &291174234
 GameObject:
   m_ObjectHideFlags: 0
